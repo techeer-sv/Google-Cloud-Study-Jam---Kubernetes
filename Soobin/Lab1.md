@@ -41,7 +41,7 @@ docker images
 docker ps
 ```
 
-If you want to see all containers, including ones that have finished executing, run `docker pa -a`
+If you want to see all containers, including ones that have finished executing, run `docker ps -a`
 
 <br/>
 
