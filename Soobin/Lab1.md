@@ -1,4 +1,4 @@
-# Lab 1 : Intoduction to Docker (10, 20)
+# Lab 1 : Intoduction to Docker
 
 📒 [link](https://www.cloudskillsboost.google/focuses/1029?parent=catalog)
 
@@ -40,8 +40,6 @@ docker images
 ```bash
 docker ps
 ```
-
-<br/>
 
 If you want to see all containers, including ones that have finished executing, run `docker pa -a`
 
@@ -212,6 +210,7 @@ docker push gcr.io/[project-id]/node-app:0.2
 
 <br/>
 ✔️ Check that the image exists in gcr
+<br/>
 
 <br/>
 ✔️ Stop and remove all container
@@ -221,7 +220,6 @@ docker stop $(docker ps -q)
 docker rm $(docker ps -aq)
 ```
 
-<br/>
 Remove the child images before you remove the node image
 
 ```bash
@@ -244,7 +242,7 @@ curl http://localhost:4000
 
 ## Summary
 
-```jsx
+```
 Build, run, and debug Docker containers.
 Pull Docker images from Docker Hub and Google Container Registry.
 Push Docker images to Google Container Registry.
