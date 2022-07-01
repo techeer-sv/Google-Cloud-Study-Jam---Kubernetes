@@ -130,7 +130,10 @@ docker run -p 4000:80 --name my-app -d node-app:0.1
 
 <br/>
 
-✔️ Edit app.js
+✔️ Run another container with the new image version
+
+
+Edit app.js
 
 ```jsx
 ....
@@ -148,7 +151,7 @@ Build this new image and tag it with 0.2
 docker build -t node-app:0.2 .
 ```
 
-Run another container with the new image version.
+Run another container
 
 ```bash
 docker run -p 8080:80 --name my-app-2 -d node-app:0.2
