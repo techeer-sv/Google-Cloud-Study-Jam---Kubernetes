@@ -97,7 +97,7 @@ process.on("SIGINT", function () {
 Now build the image.
 
 ```jsx
-docker build =t node-app:0.1 .
+docker build -t node-app:0.1 .
 ```
 
 <br/>
