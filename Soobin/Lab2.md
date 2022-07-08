@@ -1,4 +1,4 @@
-# Lab 2 : Kub(ernetes Engine: Quik Start
+# Lab 2 : Kubernetes Engine: Quik Start
 
 📒 [link](https://www.cloudskillsboost.google/focuses/878?parent=catalog)
 
