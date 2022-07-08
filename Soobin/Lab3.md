@@ -1,6 +1,6 @@
 # Lab 3 : Orchestrating the Cloud with Kubernetes
 
-📒 [link](https://www.cloudskillsboost.google/focuses/557?parent=catalog))
+📒 [link](https://github.com/techeer-sv/Google-Cloud-Study-Jam-Kubernetes/blob/main/Soobin/Lab3.md)
 
 <br/>
 
@@ -9,17 +9,7 @@
 - kubernetes
 - Google Kubernetes Engine
 
-**Example Application**
 
-```bash
-Note: App is hosted on GitHub and provides an example 12-Factor application.
-During this lab you will be working with the following Docker images:
-
-- kelseyhightower/monolith - Monolith includes auth and hello services.
-- kelseyhightower/auth - Auth microservice. Generates JWT tokens for authenticated users.
-- kelseyhightower/hello - Hello microservice. Greets authenticated users.
-- nginx - Frontend to the auth and hello services.
-```
 
 <br/>
 
