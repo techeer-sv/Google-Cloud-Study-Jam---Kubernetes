@@ -1,4 +1,4 @@
-# Lab 1 : Intoduction to Docker (10, 20)
+# Lab 1 : Intoduction to Docker
 
 📒 [link](https://www.cloudskillsboost.google/focuses/1029?parent=catalog)
 
