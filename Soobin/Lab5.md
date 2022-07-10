@@ -19,7 +19,7 @@
 
 <br/>
 
-<details open>
+<details>
 <summary>What is Kubernetes Engine?</summary>
 <br>
   Kubernetes Engine is Google Cloud's hosted version of `Kubernetes`
@@ -29,7 +29,7 @@
 
 <br/>
 
-<details open>
+<details>
 <summary>What is Jenkins?</summary>
 <br>
   Jenkins is an open-source automation server that lets you flexibly orchestrate your build, test, and deployment pipelines. Jenkins allows developers to iterate quickly on projects without worrying about overhead issues that can stem from continuous delivery. (https://jenkins.io/)
@@ -37,7 +37,7 @@
 
 <br/>
 
-<details open>
+<details>
 <summary>What is Continuous Delivery / Continuous Deployment?</summary>
 <br>
   When you need to set up a continuous delivery (CD) pipeline, deploying Jenkins on Kubernetes Engine provides important benefits over a standard VM-based deployment.
