@@ -6,6 +6,13 @@
 - `kubectl`을 사용하여 Docker 컨테이너를 배포하고 관리합니다.
 - Kubernetes의 디플로이먼트 및 서비스를 사용하여 애플리케이션을 마이크로서비스로 분할합니다.
 
+**<사용하는 image 목록>**
+
+- [kelseyhightower/monolith](https://hub.docker.com/r/kelseyhightower/monolith) - 모놀리식에 auth 및 hello 서비스 포함
+- [kelseyhightower/auth](https://hub.docker.com/r/kelseyhightower/auth) - auth 마이크로서비스로, 인증된 사용자를 위한 JWT 토큰 생성
+- [kelseyhightower/hello](https://hub.docker.com/r/kelseyhightower/hello) - hello 마이크로서비스로, 인증된 사용자를 안내
+- [ngnix](https://hub.docker.com/_/nginx) - auth 및 hello 서비스의 프런트엔드
+
 # shell&description
 
 ```bash
@@ -39,201 +46,242 @@ NUM_NODES: 3
 STATUS: RUNNING
 ```
 
+## 클러스터?
+
+pods를 실행할 수 있는 일종의 환경이라고 이해하면 될 것 같다.
+
+도화지
+
+## gutil 실행 시 뜨는 메시지
+
 ```bash
-Welcome to Cloud Shell! Type "help" to get started.
-Your Cloud Platform project in this session is set to qwiklabs-gcp-00-afc8564ed978.
-Use “gcloud config set project [PROJECT_ID]” to change to a different project.
-student_04_1f54aedf35da@cloudshell:~ (qwiklabs-gcp-00-afc8564ed978)$ gsutil cp -r gs://spls/gsp021/* .
-Copying gs://spls/gsp021/orchestrate-with-kubernetes/.git/HEAD...
-Copying gs://spls/gsp021/orchestrate-with-kubernetes/.git/config...
-Copying gs://spls/gsp021/orchestrate-with-kubernetes/.git/description...
+==> NOTE: You are performing a sequence of gsutil operations that may
+run significantly faster if you instead use gsutil -m cp ... Please
+see the -m section under "gsutil help options" for further information
+about when gsutil -m can be advantageous.
 ```
 
-- 2
-  ```bash
-  ==> NOTE: You are performing a sequence of gsutil operations that may
-  run significantly faster if you instead use gsutil -m cp ... Please
-  see the -m section under "gsutil help options" for further information
-  about when gsutil -m can be advantageous.
-  ```
-  ```bash
-  Operation completed over 156 objects/201.4 KiB.
-  student_04_1f54aedf35da@cloudshell:~ (qwiklabs-gcp-00-afc8564ed978)$ cd orchestrate-with-kubernetes/kubernetes
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ ls
-  [cleanup.sh](http://cleanup.sh/)  deployments  nginx  pods  services  tls
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx --image=nginx:1.10.0
-  error: failed to create deployment: Post "[http://localhost:8080/apis/apps/v1/namespaces/default/deployments?fieldManager=kubectl-create&fieldValidation=Strict](http://localhost:8080/apis/apps/v1/namespaces/default/deployments?fieldManager=kubectl-create&fieldValidation=Strict)": dial tcp 127.0.0.1:8080: connect: connection refused
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx --image=nginx:1.10.0kubectl create deployment nginx --image=nginx:1.10.0
-  error: exactly one NAME is required, got 4
-  See 'kubectl create deployment -h' for help and examples
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx--image=nginx:1.10.0kubectl create deployment nginx --image=nginx:1.10.0
-  error: exactly one NAME is required, got 4
-  See 'kubectl create deployment -h' for help and examples
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx --image=nginx:1.10.0
-  W0715 06:41:39.597186     851 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  deployment.apps/nginx created
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get pods
-  W0715 06:41:48.689177     863 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  NAME                    READY   STATUS    RESTARTS   AGE
-  nginx-56cd7f6b6-lkmb9   1/1     Running   0          9s
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl expose deployment nginx --port 80 --type LoadBalancer
-  W0715 06:42:00.879048     870 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  service/nginx exposed
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get services
-  W0715 06:42:08.481243     876 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  NAME         TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S) AGE
-  kubernetes   ClusterIP      10.72.0.1     <none>        443/TCP 4m14s
-  nginx        LoadBalancer   10.72.0.248   <pending>     80:30508/TCP 7s
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ curl [http://10.72.0.248:80](http://10.72.0.248/)
-  curl: (28) Failed to connect to 10.72.0.248 port 80: Connection timedout
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get services
-  W0715 06:45:26.546914     891 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  NAME         TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)   AGE
-  kubernetes   ClusterIP      10.72.0.1     <none>          443/TCP   7m33s
-  nginx        LoadBalancer   10.72.0.248   35.224.188.12   80:30508/TCP   3m26s
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ curl [http://35.224.188.12:80](http://35.224.188.12/)
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <title>Welcome to nginx!</title>
-  <style>
-  body {
-  width: 35em;
-  margin: 0 auto;
-  font-family: Tahoma, Verdana, Arial, sans-serif;
-  }
-  </style>
-  </head>
-  <body>
-  <h1>Welcome to nginx!</h1>
-  <p>If you see this page, the nginx web server is successfully installed and
-  working. Further configuration is required.</p>
-  ```
-  ```bash
-  <p>For online documentation and support please refer to
-  <a href="[http://nginx.org/](http://nginx.org/)">nginx.org</a>.<br/>
-  Commercial support is available at
-  <a href="[http://nginx.com/](http://nginx.com/)">nginx.com</a>.</p>
-  ```
-  ```bash
-  <p><em>Thank you for using nginx.</em></p>
-  </body>
-  </html>
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ cat pods/monolith.yaml
-  apiVersion: v1
-  kind: Pod
-  metadata:
-  name: monolith
-  labels:
-  app: monolith
-  spec:
-  containers:
-  - name: monolith
-  image: kelseyhightower/monolith:1.0.0
-  args:
-  - "-http=0.0.0.0:80"
-  - "-health=0.0.0.0:81"
-  - "-secret=secret"
-  ports:
-  - name: http
-  containerPort: 80
-  - name: health
-  containerPort: 81
-  resources:
-  limits:
-  cpu: 0.2
-  memory: "10Mi"
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create -f pods/monolith.yaml
-  W0715 06:47:08.812625     905 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  pod/monolith created
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get pods
-  W0715 06:47:34.921021     914 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  NAME                    READY   STATUS    RESTARTS   AGE
-  monolith                1/1     Running   0          24s
-  nginx-56cd7f6b6-lkmb9   1/1     Running   0          5m55s
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl describe pods monolith
-  W0715 06:48:54.704203     922 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  Name:         monolith
-  Namespace:    default
-  Priority:     0
-  Node:         gke-io-default-pool-c5640bba-lfg7/10.128.0.4
-  Start Time:   Fri, 15 Jul 2022 06:47:11 +0000
-  Labels:       app=monolith
-  Annotations:  <none>
-  Status:       Running
-  IP:           10.68.2.8
-  IPs:
-  IP:  10.68.2.8
-  Containers:
-  monolith:
-  Container ID:  containerd://0ecc472f0946d9972b017f0caecbe8872b5ab41d93b326c145cc294e65c10412
-  Image:         kelseyhightower/monolith:1.0.0
-  Image ID:      sha256:980e09dd5c76f726e7369ac2c3aa9528fe3a8c92382b78e97aa54a4a32d3b187
-  Ports:         80/TCP, 81/TCP
-  Host Ports:    0/TCP, 0/TCP
-  Args:
-  -http=0.0.0.0:80
-  -health=0.0.0.0:81
-  -secret=secret
-  State:          Running
-  Started:      Fri, 15 Jul 2022 06:47:15 +0000
-  Ready:          True
-  Restart Count:  0
-  Limits:
-  cpu:     200m
-  memory:  10Mi
-  Requests:
-  cpu:        200m
-  memory:     10Mi
-  Environment:  <none>
-  Mounts:
-  /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hr5d6 (ro)
-  Conditions:
-  Type              Status
-  Initialized       True
-  Ready             True
-  ContainersReady   True
-  PodScheduled      True
-  Volumes:
-  kube-api-access-hr5d6:
-  Type:                    Projected (a volume that contains injected data from mltiple sources)
-  TokenExpirationSeconds:  3607
-  ConfigMapName:           kube-root-ca.crt
-  ConfigMapOptional:       <nil>
-  DownwardAPI:             true
-  QoS Class:                   Guaranteed
-  Node-Selectors:              <none>
-  Tolerations:                 [node.kubernetes.io/not-ready:NoExecute](http://node.kubernetes.io/not-ready:NoExecute) op=Exists for300s
-  [node.kubernetes.io/unreachable:NoExecute](http://node.kubernetes.io/unreachable:NoExecute) op=Exists for 300s
-  Events:
-  Type    Reason     Age   From               Message
-  ```
-  ```bash
-  Normal  Scheduled  104s  default-scheduler  Successfully assigned default/monolith to gke-io-default-pool-c5640bba-lfg7
-  Normal  Pulling    101s  kubelet            Pulling image "kelseyhightower/monolith:1.0.0"
-  Normal  Pulled     100s  kubelet            Successfully pulled image "kelseyhightower/monolith:1.0.0" in 1.634438249s
-  Normal  Created    100s  kubelet            Created container monolith
-  Normal  Started    100s  kubelet            Started container monolith
-  student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kuberstudent_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwikl
-  abs-gcp-00-afc8564ed978)$ kubectl port-forward monolith 10
-  080:80
-  W0715 06:50:02.965391     930 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
-  To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
-  Forwarding from 127.0.0.1:10080 -> 80
-  Handling connection for 10080
-  Handling connection for 10080
-  Handling connection for 10080
-  Handling connection for 10080
-  Handling connection for 10080
-  ```
+- -m
+
+지원되는 작업(acl ch, acl set, cp, mv, rm, rsync, setmeta)이 동시에 실행됩니다. 이렇게 하면 비교적 빠른 네트워크 연결을 통해 다수의 파일에 작업을 수행할 때 성능이 크게 향상될 수 있습니다.
+gsutil은 멀티 스레드 및 다중 처리를 조합하여 지정된 작업을 수행합니다. 스레드 및 프로세서의 수는 각각 `parallel_thread_count` 및 `parallel_process_count`에 따라 결정됩니다. 이러한 값은 .boto 구성 파일에서 설정되거나 `-o` 최상위 플래그를 사용하여 개별 요청에 지정됩니다. gsutil에는 제한 요청에 대한 기본 지원 기능이 없으므로 이러한 값을 사용해 실험해야 합니다. 최적 값은 네트워크 속도, CPU 수, 사용 가능한 메모리를 포함한 여러 요소에 따라 달라질 수 있습니다.
+-m 옵션을 사용하면 상당한 네트워크 대역폭을 소비할 수 있으며 네트워크 속도가 느린 경우 문제가 생기거나 성능이 저하될 수 있습니다. 예를 들어 다수의 다른 중요한 작업에서도 사용하는 네트워크 링크를 통해 대규모 rsync 작업을 시작하면 해당 작업의 성능이 저하될 수 있습니다. 마찬가지로 -m 옵션을 사용하면 성능이 저하될 수 있습니다. 로컬 디스크를 '스래싱'할 수 있으므로 로컬에서 모든 작업을 수행하는 경우에 특히 그렇습니다.
+이러한 문제를 방지하려면 `parallel_thread_count` 및 `parallel_process_count`의 값을 줄이거나 -m 옵션 사용을 완전히 중지합니다. gsutil에서 사용하는 I/O 용량의 양을 제한하고 로컬 디스크를 독점하지 못하도록 하기 위해 사용할 수 있는 도구 중 하나는 여러 Linux 시스템에 내장되어 있는 [ionice](http://www.tutorialspoint.com/unix_commands/ionice.htm)입니다. 예를 들어 다음 명령어는 로컬 디스크를 독점하지 않도록 gsutil의 I/O 우선순위를 줄입니다.
+
+`ionice -c 2 -n 7 gsutil -m rsync -r ./dir gs://some bucket`
+
+전체 전송이 완료되기 전에 동시 전송을 사용하는 다운로드나 업로드 작업이 실패하면(예: 파일 1,000개 중 300개가 전송된 후 실패) 전체 전송을 다시 시작해야 합니다.
+또한 -m 플래그를 중지하면 오류 발생 시 일반적으로 대부분의 명령어가 실패합니다. 하지만 멀티 스레드 또는 멀티 프로세스로 -m을 사용 설정하면 모든 명령어가 계속 모든 작업을 시도하며 명령어 실행이 끝날 때 실패한 작업 횟수(있는 경우)가 예외로 보고됩니다.
+
+### 파일 구조
+
+```
+deployments/  /* 디플로이먼트 매니페스트  */
+  ...
+nginx/        /* nginx 구성 파일 */
+  ...
+pods/         /* 포드 매니페스트 */
+  ...
+services/     /* 서비스 매니페스트 */
+  ...
+tls/          /* TLS 인증서 */
+  ...
+cleanup.sh    /* 정리 스크립트 */content_copy
+```
+
+```bash
+
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx --image=nginx:1.10.0
+error: failed to create deployment: Post "[http://localhost:8080/apis/apps/v1/namespaces/default/deployments?fieldManager=kubectl-create&fieldValidation=Strict](http://localhost:8080/apis/apps/v1/namespaces/default/deployments?fieldManager=kubectl-create&fieldValidation=Strict)": dial tcp 127.0.0.1:8080: connect: connection refused
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx --image=nginx:1.10.0kubectl create deployment nginx --image=nginx:1.10.0
+error: exactly one NAME is required, got 4
+See 'kubectl create deployment -h' for help and examples
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx--image=nginx:1.10.0kubectl create deployment nginx --image=nginx:1.10.0
+error: exactly one NAME is required, got 4
+See 'kubectl create deployment -h' for help and examples
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create deployment nginx --image=nginx:1.10.0
+W0715 06:41:39.597186     851 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+deployment.apps/nginx created
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get pods
+W0715 06:41:48.689177     863 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+NAME                    READY   STATUS    RESTARTS   AGE
+nginx-56cd7f6b6-lkmb9   1/1     Running   0          9s
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl expose deployment nginx --port 80 --type LoadBalancer
+W0715 06:42:00.879048     870 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+service/nginx exposed
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get services
+W0715 06:42:08.481243     876 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+NAME         TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S) AGE
+kubernetes   ClusterIP      10.72.0.1     <none>        443/TCP 4m14s
+nginx        LoadBalancer   10.72.0.248   <pending>     80:30508/TCP 7s
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ curl [http://10.72.0.248:80](http://10.72.0.248/)
+curl: (28) Failed to connect to 10.72.0.248 port 80: Connection timedout
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get services
+W0715 06:45:26.546914     891 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+NAME         TYPE           CLUSTER-IP    EXTERNAL-IP     PORT(S)   AGE
+kubernetes   ClusterIP      10.72.0.1     <none>          443/TCP   7m33s
+nginx        LoadBalancer   10.72.0.248   35.224.188.12   80:30508/TCP   3m26s
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ curl [http://35.224.188.12:80](http://35.224.188.12/)
+<!DOCTYPE html>
+<html>
+<head>
+<title>Welcome to nginx!</title>
+<style>
+body {
+width: 35em;
+margin: 0 auto;
+font-family: Tahoma, Verdana, Arial, sans-serif;
+}
+</style>
+</head>
+<body>
+<h1>Welcome to nginx!</h1>
+<p>If you see this page, the nginx web server is successfully installed and
+working. Further configuration is required.</p>
+```
+
+```bash
+<p>For online documentation and support please refer to
+<a href="[http://nginx.org/](http://nginx.org/)">nginx.org</a>.<br/>
+Commercial support is available at
+<a href="[http://nginx.com/](http://nginx.com/)">nginx.com</a>.</p>
+```
+
+```bash
+<p><em>Thank you for using nginx.</em></p>
+</body>
+</html>
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ cat pods/monolith.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+name: monolith
+labels:
+app: monolith
+spec:
+containers:
+- name: monolith
+image: kelseyhightower/monolith:1.0.0
+args:
+- "-http=0.0.0.0:80"
+- "-health=0.0.0.0:81"
+- "-secret=secret"
+ports:
+- name: http
+containerPort: 80
+- name: health
+containerPort: 81
+resources:
+limits:
+cpu: 0.2
+memory: "10Mi"
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl create -f pods/monolith.yaml
+W0715 06:47:08.812625     905 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+pod/monolith created
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl get pods
+W0715 06:47:34.921021     914 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+NAME                    READY   STATUS    RESTARTS   AGE
+monolith                1/1     Running   0          24s
+nginx-56cd7f6b6-lkmb9   1/1     Running   0          5m55s
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwiklabs-gcp-00-afc8564ed978)$ kubectl describe pods monolith
+W0715 06:48:54.704203     922 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+Name:         monolith
+Namespace:    default
+Priority:     0
+Node:         gke-io-default-pool-c5640bba-lfg7/10.128.0.4
+Start Time:   Fri, 15 Jul 2022 06:47:11 +0000
+Labels:       app=monolith
+Annotations:  <none>
+Status:       Running
+IP:           10.68.2.8
+IPs:
+IP:  10.68.2.8
+Containers:
+monolith:
+Container ID:  containerd://0ecc472f0946d9972b017f0caecbe8872b5ab41d93b326c145cc294e65c10412
+Image:         kelseyhightower/monolith:1.0.0
+Image ID:      sha256:980e09dd5c76f726e7369ac2c3aa9528fe3a8c92382b78e97aa54a4a32d3b187
+Ports:         80/TCP, 81/TCP
+Host Ports:    0/TCP, 0/TCP
+Args:
+-http=0.0.0.0:80
+-health=0.0.0.0:81
+-secret=secret
+State:          Running
+Started:      Fri, 15 Jul 2022 06:47:15 +0000
+Ready:          True
+Restart Count:  0
+Limits:
+cpu:     200m
+memory:  10Mi
+Requests:
+cpu:        200m
+memory:     10Mi
+Environment:  <none>
+Mounts:
+/var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-hr5d6 (ro)
+Conditions:
+Type              Status
+Initialized       True
+Ready             True
+ContainersReady   True
+PodScheduled      True
+Volumes:
+kube-api-access-hr5d6:
+Type:                    Projected (a volume that contains injected data from mltiple sources)
+TokenExpirationSeconds:  3607
+ConfigMapName:           kube-root-ca.crt
+ConfigMapOptional:       <nil>
+DownwardAPI:             true
+QoS Class:                   Guaranteed
+Node-Selectors:              <none>
+Tolerations:                 [node.kubernetes.io/not-ready:NoExecute](http://node.kubernetes.io/not-ready:NoExecute) op=Exists for300s
+[node.kubernetes.io/unreachable:NoExecute](http://node.kubernetes.io/unreachable:NoExecute) op=Exists for 300s
+Events:
+Type    Reason     Age   From               Message
+```
+
+```bash
+Normal  Scheduled  104s  default-scheduler  Successfully assigned default/monolith to gke-io-default-pool-c5640bba-lfg7
+Normal  Pulling    101s  kubelet            Pulling image "kelseyhightower/monolith:1.0.0"
+Normal  Pulled     100s  kubelet            Successfully pulled image "kelseyhightower/monolith:1.0.0" in 1.634438249s
+Normal  Created    100s  kubelet            Created container monolith
+Normal  Started    100s  kubelet            Started container monolith
+student_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kuberstudent_04_1f54aedf35da@cloudshell:~/orchestrate-with-kubernetes/kubernetes (qwikl
+abs-gcp-00-afc8564ed978)$ kubectl port-forward monolith 10
+080:80
+W0715 06:50:02.965391     930 gcp.go:120] WARNING: the gcp auth plugin is deprecated in v1.22+, unavailable in v1.25+; use gcloud instead.
+To learn more, consult [https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke](https://cloud.google.com/blog/products/containers-kubernetes/kubectl-auth-changes-in-gke)
+Forwarding from 127.0.0.1:10080 -> 80
+Handling connection for 10080
+Handling connection for 10080
+Handling connection for 10080
+Handling connection for 10080
+Handling connection for 10080
+```
+
+```
+deployments/  /* 디플로이먼트 매니페스트  */
+  ...
+nginx/        /* nginx 구성 파일 */
+  ...
+pods/         /* 포드 매니페스트 */
+  ...
+services/     /* 서비스 매니페스트 */
+  ...
+tls/          /* TLS 인증서 */
+  ...
+cleanup.sh    /* 정리 스크립트 */content_copy
+```
+
 - 3
   ```bash
   Your Cloud Platform project in this session is set to qwiklabs-gcp-00-afc8564ed978.Use “gcloud config set project [PROJECT_ID]” to change to a different project.
