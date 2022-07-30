@@ -1,4 +1,6 @@
-# Lab 2. Kubernetes Engine: Quick Start
+# Lab 2. Kubernetes Engine: Qwik Start
+
+[Google LInk](https://www.cloudskillsboost.google/focuses/878?parent=catalog)
 
 ## Google Kubernetes Engine (GKE)
 

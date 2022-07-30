@@ -1,6 +1,6 @@
 # Lab 4. Managing Deployments Using Kubernetes Engine
 
-[Google LInk](https://www.cloudskillsboost.google/focuses/639)
+[Google LInk](https://www.cloudskillsboost.google/focuses/639?parent=catalog)
 
 ## Overview
 

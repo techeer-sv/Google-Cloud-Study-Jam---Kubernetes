@@ -1,6 +1,6 @@
 # Lab 3. Orchestrating the Cloud with Kubernetes
 
-[Google LInk](https://www.cloudskillsboost.google/focuses/557)
+[Google LInk](https://www.cloudskillsboost.google/focuses/557?parent=catalog)
 
 ## Overview
 
